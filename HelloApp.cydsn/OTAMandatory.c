@@ -183,12 +183,7 @@ void InitializeBootloaderSRAM()
 *******************************************************************************/
 void ConfigureSharedPins()
 {
-    Disconnect_LED_SetDriveMode(LED_1_DM_RES_UP);
-    Advertising_LED_SetDriveMode(LED_1_DM_RES_UP);
-    CapsLock_LED_SetDriveMode(LED_1_DM_RES_UP);
-    Disconnect_LED_Write(LED_OFF);
-    Advertising_LED_Write(LED_OFF);
-    CapsLock_LED_Write(LED_OFF);
+                H_UART_UartPutString("ConfigureSharedPins");
     Bootloader_Service_Activation_SetDriveMode(LED_1_DM_RES_UP);
     Bootloader_Service_Activation_Write(1);
 }

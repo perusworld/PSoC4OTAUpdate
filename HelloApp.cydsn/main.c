@@ -51,9 +51,8 @@ int main()
     InitializeBootloaderSRAM();
 #endif
 
-    PrintProjectHeader();
-    AART_Start();
-    AART_UartPutString("HelloApp");
+    H_UART_Start();
+    H_UART_UartPutString("HelloApp");
    
     ConfigureSharedPins();
    
@@ -62,7 +61,6 @@ int main()
     /* Start CYBLE component and register generic event handler */
     CyBle_Start(AppCallBack);
 
-    WDT_Start();
 
     while(1) 
     {           
@@ -174,28 +172,21 @@ void AppCallBack(uint32 event, void* eventParam)
         case CYBLE_EVT_GAPP_ADVERTISEMENT_START_STOP:
             if(CYBLE_STATE_DISCONNECTED == CyBle_GetState())
             {   
-                /* Fast and slow advertising period complete, go to low power  
-                 * mode (Hibernate mode) and wait for an external
-                 * user event to wake up the device again */
-                Advertising_LED_Write(LED_OFF);
-                Disconnect_LED_Write(LED_OFF);
-                CapsLock_LED_Write(LED_OFF);
-                Bootloader_Service_Activation_ClearInterrupt();
-                Wakeup_Interrupt_ClearPending();
-                Wakeup_Interrupt_Start();
-                CySysPmHibernate();
+//                /* Fast and slow advertising period complete, go to low power  
+//                 * mode (Hibernate mode) and wait for an external
+//                 * user event to wake up the device again */
+//                H_UART_UartPutString("BLE Sleep");
+//                Bootloader_Service_Activation_ClearInterrupt();
+//                Wakeup_Interrupt_ClearPending();
+//                Wakeup_Interrupt_Start();
+//                CySysPmHibernate();
             }
             break;
         case CYBLE_EVT_GAP_DEVICE_CONNECTED:
-            Disconnect_LED_Write(LED_OFF);
-            Advertising_LED_Write(LED_OFF);
+                H_UART_UartPutString("CONNECTED");
             break;
         case CYBLE_EVT_GAP_DEVICE_DISCONNECTED:
-            apiResult = CyBle_GappStartAdvertisement(CYBLE_ADVERTISING_FAST);
-            if(apiResult != CYBLE_ERROR_OK)
-            {
-            }
-            Disconnect_LED_Write(LED_ON);
+                H_UART_UartPutString("DISCONNECTED");
             break;
         case CYBLE_EVT_GATTS_XCNHG_MTU_REQ:
             { 

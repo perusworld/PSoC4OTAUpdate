@@ -85,11 +85,9 @@ void HidsCallBack(uint32 event, void *eventParam)
                 {
                     if( (CAPS_LOCK_LED & locEventParam->value->val[0u]) != 0u)
                     {
-                        CapsLock_LED_Write(LED_ON);
                     }
                     else
                     {
-                        CapsLock_LED_Write(LED_OFF);
                     }
                 }
             }

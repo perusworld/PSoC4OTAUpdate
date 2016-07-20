@@ -28,7 +28,6 @@
 #if !defined(MAIN_H)
 #define MAIN_H
 #include "OTAMandatory.h"
-#include "OTAOptional.h"
 #include "common.h"
 #include "hids.h"
 #include "bas.h"
