@@ -102,16 +102,6 @@ int main()
                     SimulateKeyboard();
                 }
             }
-            /* Store bonding data to flash only when all debug information has been sent */
-            if(cyBle_pendingFlashWrite != 0u)
-            {
-                #if (DEBUG_UART_ENABLED == YES)
-                    CYBLE_API_RESULT_T apiResult;
-                    apiResult = CyBle_StoreBondingData(0u);
-                #else
-                    (void)CyBle_StoreBondingData(0u);
-                #endif /* (DEBUG_UART_ENABLED == YES) */
-            }
         }
         CyBle_ProcessEvents();
         
@@ -134,12 +124,8 @@ int main()
 *******************************************************************************/
 void AppCallBack(uint32 event, void* eventParam)
 {
-    #if (DEBUG_UART_ENABLED == YES)
-        CYBLE_GAP_AUTH_INFO_T *authInfo;
-    #endif /* (DEBUG_UART_ENABLED == YES) */
     CYBLE_API_RESULT_T apiResult;
     CYBLE_GAP_BD_ADDR_T localAddr;
-    uint8 i;
     
     switch (event)
     {
@@ -182,9 +168,6 @@ void AppCallBack(uint32 event, void* eventParam)
         case CYBLE_EVT_GAP_KEYINFO_EXCHNGE_CMPLT:
             break;
         case CYBLE_EVT_GAP_AUTH_COMPLETE:
-            #if (DEBUG_UART_ENABLED == YES)
-            authInfo = (CYBLE_GAP_AUTH_INFO_T *)eventParam;
-            #endif /* (DEBUG_UART_ENABLED == YES) */
             break;
         case CYBLE_EVT_GAP_AUTH_FAILED:
             break;
