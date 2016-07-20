@@ -29,13 +29,13 @@
 #define MAIN_H
 #include "OTAMandatory.h"
 #include "common.h"
-#include "hids.h"
-#include "bas.h"
 #include "scps.h"
 
 
 
 void AppCallBack(uint32 event, void* eventParam);
+
+void DoProcess(void);
 
 #endif /* MAIN_H */
 

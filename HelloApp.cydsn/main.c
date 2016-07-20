@@ -30,8 +30,6 @@
 
 #include "main.h"
 
-volatile uint32 mainTimer = 0u;
-
 /*******************************************************************************
 * Function Name: main()
 ********************************************************************************
@@ -64,48 +62,21 @@ int main()
 
     while(1) 
     {           
-        if(CyBle_GetState() != CYBLE_STATE_INITIALIZING)
-        {
-            /* Enter DeepSleep mode between connection intervals */
-            lpMode = CyBle_EnterLPM(CYBLE_BLESS_DEEPSLEEP);
-            CyGlobalIntDisable;
-            blessState = CyBle_GetBleSsState();
-
-            if(lpMode == CYBLE_BLESS_DEEPSLEEP) 
-            {   
-                if(blessState == CYBLE_BLESS_STATE_ECO_ON || blessState == CYBLE_BLESS_STATE_DEEPSLEEP)
-                {
-                    CySysPmDeepSleep();
-                }
-            }
-            else
-            {
-                if(blessState != CYBLE_BLESS_STATE_EVENT_CLOSE)
-                {
-                    CySysPmSleep();
-                }
-            }
-            CyGlobalIntEnable;
-        }
-        if((CyBle_GetState() == CYBLE_STATE_CONNECTED) && (suspend != CYBLE_HIDS_CP_SUSPEND))
-        {
-            if(mainTimer != 0u)
-            {
-                mainTimer = 0u;                
-                
-                SimulateBattery();
-                CyBle_ProcessEvents();
-                if(keyboardSimulation == ENABLED)
-                {
-                    SimulateKeyboard();
-                }
-            }
-        }
         CyBle_ProcessEvents();
-        
         BootloaderSwitch();
+        DoProcess();
     }   
 }
+
+void DoProcess(void)
+{
+    char8 rxData;
+    rxData = H_UART_UartGetChar();
+    if (rxData){
+        H_UART_UartPutChar(rxData);
+    }    
+}
+
 
 
 /*******************************************************************************
@@ -207,8 +178,6 @@ void AppCallBack(uint32 event, void* eventParam)
         ***********************************************************/
         case CYBLE_EVT_GATT_CONNECT_IND:
             /* Register service specific callback functions */
-            HidsInit();
-            BasInit();
             ScpsInit();
             break;
         case CYBLE_EVT_GATT_DISCONNECT_IND:
