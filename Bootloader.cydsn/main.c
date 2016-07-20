@@ -63,15 +63,10 @@ int main()
 
 
     packetRXFlag = 0u;
-    TART_PutString("Bootloader\n\r");
+    B_UART_PutString("Bootloader\n\r");
     
     CyGlobalIntEnable;
 
-    Bootloading_LED_Write(LED_OFF);
-    Advertising_LED_1_Write(LED_OFF);
-    Advertising_LED_2_Write(LED_OFF);
-
-    
     CyBle_Start(AppCallBack);
     
     /* Set Serial Number string not initialized in GUI */
@@ -85,8 +80,6 @@ int main()
     /* Force client to rediscover services in range of bootloader service */
     WriteAttrServChanged();
     
-    WDT_Start();
-
     while(1u == 1u)
     {
         /* CyBle_ProcessEvents() allows BLE stack to process pending events */
@@ -95,9 +88,6 @@ int main()
         /* To achieve low power in the device */
         LowPowerImplementation();
 
-        /* Handle blue led blinking */
-        HandleLeds();
-        
         Bootloader_Start();
     }
 }
@@ -163,7 +153,6 @@ void AppCallBack(uint32 event, void* eventParam)
                 connUpdateParam.supervisionTO = 0x0064u;
                 apiResult = CyBle_L2capLeConnectionParamUpdateRequest(cyBle_connHandle.bdHandle, &connUpdateParam);
             }
-            Bootloading_LED_Write(LED_OFF);
             break;
         case CYBLE_EVT_GAP_DEVICE_DISCONNECTED:
             apiResult = CyBle_GappStartAdvertisement(CYBLE_ADVERTISING_FAST);
@@ -181,9 +170,6 @@ void AppCallBack(uint32 event, void* eventParam)
                 /* Fast and slow advertising period complete, go to low power  
                  * mode (Hibernate mode) and wait for an external
                  * user event to wake up the device again */
-                Bootloading_LED_Write(LED_ON);
-                Advertising_LED_1_Write(LED_ON);
-                Advertising_LED_2_Write(LED_ON);
                 Bootloader_Service_Activation_ClearInterrupt();
                 Wakeup_Interrupt_ClearPending();
                 Wakeup_Interrupt_Start();
@@ -287,9 +273,6 @@ static void LowPowerImplementation(void)
                (CyBle_GetBleSsState() == CYBLE_BLESS_STATE_DEEPSLEEP))
             {
                 CySysPmDeepSleep();
-                
-                /* Handle advertising led blinking */
-                HandleLeds();
             }
         }
         else /* When BLE subsystem has been put into Sleep mode or is active */

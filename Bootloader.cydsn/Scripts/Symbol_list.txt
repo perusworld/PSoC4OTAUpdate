@@ -1,5 +1,4 @@
 CyBle_
-LED_
 Bootloader_Service_Activation_
 WakeUp_Interrupt_
 

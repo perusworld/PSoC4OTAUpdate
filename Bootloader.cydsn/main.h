@@ -30,12 +30,6 @@
 #include <stdio.h>
 #include "Options.h"
 #include "OTAMandatory.h"
-#include "OTAOptional.h"
-
-
-
-
-
 
 void AppCallBack(uint32 event, void* eventParam);
 
