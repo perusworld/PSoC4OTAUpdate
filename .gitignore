@@ -1,0 +1,48 @@
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+
+*.cydsn/codegentemp/
+*.cydsn/Generated_Source/
+*.cydsn/CortexM0/
+*.cydsn/Export/
+*.cydsn/*.rpt
+*.cylib/CortexM0/
+*.sarav
+*.cycdx
+*.cyfit
+*.svd
+*.cydsn/*.html
+Backup/
+ComponentUpdateLog.txt
+Archive/
+.vscode/
