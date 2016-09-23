@@ -3,6 +3,8 @@
 
 ## Programming the Bootloader (Windows only)
 
+![[PSOC4Firmware - Programming the Bootloader - Video](https://img.youtube.com/vi/3BdwIGJ10rA/0.jpg)](https://www.youtube.com/watch?v=3BdwIGJ10rA) 
+
 1. Checkout the code.
 1. Connect the [CY8CKIT-042-BLE Kit](http://www.cypress.com/documentation/development-kitsboards/cy8ckit-042-ble-bluetooth-low-energy-ble-pioneer-kit) with the PSoC 4 BLE module 
 1. Install and launch the [PSoC Programmer](http://www.cypress.com/products/psoc-programmer)
